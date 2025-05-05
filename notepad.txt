@@ -1,0 +1,56 @@
+<?php
+    if(isset($_POST['name'])){
+    // mysqli extension or php data objects, ye 2 methods hai to connect our frontend with mysql database
+
+    // i = improved version of mysql
+
+    $server = "localhost";
+    $username = "root";
+    $password = "";
+
+    // mysqli_connect() ye ek fxn hai
+    $con = mysqli_connect($server, $username, $password);
+
+    if(!$con){
+        die("connection to this database failed due to" . mysqli_connect_error());
+
+        // mysqli_connect_error() ye bhi ekfxn hai jo connection na hone par error indicate krta hai
+    }
+    echo "Successfully connected to the database";
+
+    // Ek baar connection ban gya database se, to hum database k andar vo data insert krwaaenge jo hme form se milega
+
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $gender = $_POST['gender'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $desc = $_POST['desc'];
+    
+    $sql = "INSERT INTO `trip`.`trip` (`name`, `age`, `gender`, `email`, `phone`, `other`, `dt`) VALUES ('$name', '$age', '$gender', '$email', '$phone', '$desc', current_timestamp());";
+
+    echo "<br>";
+    echo $sql;
+
+    // Ab iss query ko apne database me insert krna hai hme
+
+    if($con->query($sql) == true){
+        echo "Successfully Inserted";
+    }
+    else{
+        echo "ERROR: $sql <br> $con->error";
+        // $con object operator ka jo error key hai, hum usko acces krna chahte hai, is command ka use krke
+
+        // Kaam hone k baad hme connection close krna padta hai
+
+    }
+
+    $con->close();
+
+    }
+
+?>
+
+
+
+<!-- One landing page, we are taking some input in that form and will enter it into the database, College trip jaa rha hai, and we want to collect each student's data -->
